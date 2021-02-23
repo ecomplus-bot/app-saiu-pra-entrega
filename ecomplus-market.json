@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "",
-    "short_description": "",
-    "category": "tools"
+    "title": "Saiu Pra Entrega",
+    "short_description": "Notificações por e-mail, SMS e WhatsApp para rastreamento de pedidos",
+    "category": "customer-service"
   }
 }
