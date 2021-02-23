@@ -1,7 +1,7 @@
 {
-  "app_id": 9000,
-  "title": "My Awesome E-Com Plus App",
-  "slug": "my-awesome-ecom-plus-app",
+  "app_id": 107448,
+  "title": "Saiu Pra Entrega",
+  "slug": "saiupraentrega",
   "type": "external",
   "state": "active",
   "authentication": true,
@@ -16,16 +16,34 @@
     "products": [],
     "brands": [],
     "categories": [],
-    "customers": [],
-    "orders": [],
+    "customers": [
+      "GET"
+    ],
+    "orders": [
+      "GET"
+    ],
     "carts": [],
-    "orders/fulfillments": [],
+    "orders/fulfillments": [
+      "POST"
+    ],
     "orders/payments_history": [],
     "products/quantity": [],
     "products/variations/quantity": [],
     "products/price": [],
     "products/variations/price": []
   },
-  "auth_callback_uri": "https://us-central1-ecom-app-boilerplate.cloudfunctions.net/app/ecom/auth-callback",
+  "admin_settings": {
+    "spe_webhook_uri": {
+      "schema": {
+        "type": "string",
+        "maxLength": 255,
+        "format": "uri",
+        "title": "URL de notificações",
+        "description": "Endpoint para webhooks da sua conta Saiu Pra Entrega"
+      },
+      "hide": true
+    }
+  },
+  "auth_callback_uri": "https://us-central1-ecom-saiupraentrega.cloudfunctions.net/app/ecom/auth-callback",
   "version": "1.0.0"
 }
