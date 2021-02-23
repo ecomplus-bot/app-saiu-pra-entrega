@@ -1,8 +1,9 @@
+const axios = require('axios')
+
 // read configured E-Com Plus app data
 const getAppData = require('./../../lib/store-api/get-app-data')
 
 const SKIP_TRIGGER_NAME = 'SkipTrigger'
-const ECHO_SUCCESS = 'SUCCESS'
 const ECHO_SKIP = 'SKIP'
 const ECHO_API_ERROR = 'STORE_API_ERR'
 
@@ -31,9 +32,42 @@ exports.post = ({ appSdk }, req, res) => {
       }
 
       /* DO YOUR CUSTOM STUFF HERE */
-
-      // all done
-      res.send(ECHO_SUCCESS)
+      const { resource } = trigger
+      if (resource === 'orders' && trigger.action !== 'delete') {
+        const resourceId = trigger.resource_id || trigger.inserted_id
+        if (resourceId) {
+          const url = appData.spe_webhook_uri
+          console.log(`Trigger for Store #${storeId} ${resourceId} => ${url}`)
+          if (url) {
+            appSdk.apiRequest(storeId, `${resource}/${resourceId}.json`)
+              .then(async ({ response }) => {
+                let customer
+                console.log(`> Sending ${resource} notification`)
+                return axios({
+                  method: 'post',
+                  url,
+                  data: {
+                    storeId,
+                    trigger,
+                    [resource.slice(0, -1)]: response.data
+                  }
+                })
+              })
+              .then(({ status }) => console.log(`> ${status}`))
+              .catch(error => {
+                const { response } = error
+                if (response) {
+                  const err = new Error(`#${storeId} notification to ${url} failed > ${response.status}`)
+                  err.response = JSON.stringify(response.data)
+                  return console.error(err)
+                }
+                console.error(error)
+              })
+            return res.sendStatus(202)
+          }
+        }
+      }
+      res.sendStatus(204)
     })
 
     .catch(err => {
