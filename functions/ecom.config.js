@@ -7,8 +7,8 @@
 
 const app = {
   app_id: 107448,
-  title: 'My Awesome E-Com Plus App',
-  slug: 'my-awesome-app',
+  title: 'Saiu Pra Entrega',
+  slug: 'saiupraentrega',
   type: 'external',
   state: 'active',
   authentication: true,
@@ -75,14 +75,14 @@ const app = {
       // 'DELETE',        // Delete categories
     ],
     customers: [
-      // 'GET',           // List/read customers
+      'GET',           // List/read customers
       // 'POST',          // Create customers
       // 'PATCH',         // Edit customers
       // 'PUT',           // Overwrite customers
       // 'DELETE',        // Delete customers
     ],
     orders: [
-      // 'GET',           // List/read orders with public and private fields
+      'GET',           // List/read orders with public and private fields
       // 'POST',          // Create orders
       // 'PATCH',         // Edit orders
       // 'PUT',           // Overwrite orders
@@ -101,7 +101,7 @@ const app = {
      */
     'orders/fulfillments': [
       // 'GET',           // List/read order fulfillment and tracking events
-      // 'POST',          // Create fulfillment event with new status
+      'POST',          // Create fulfillment event with new status
       // 'DELETE',        // Delete fulfillment event
     ],
     'orders/payments_history': [
@@ -135,6 +135,19 @@ const app = {
      * You can also set any other valid resource/subresource combination.
      * Ref.: https://developers.e-com.plus/docs/api/#/store/
      */
+  },
+
+  admin_settings: {
+    spe_webhook_uri: {
+      schema: {
+        type: 'string',
+        maxLength: 255,
+        format: 'uri',
+        title: 'URL de notificações',
+        description: 'Endpoint para webhooks da sua conta Saiu Pra Entrega'
+      },
+      hide: true
+    }
   }
 }
 
@@ -145,20 +158,18 @@ const app = {
 
 const procedures = []
 
-/**
- * Uncomment and edit code above to configure `triggers` and receive respective `webhooks`:
-
 const { baseUri } = require('./__env')
 
 procedures.push({
   title: app.title,
 
   triggers: [
-    // Receive notifications when new order is created:
+    /* Receive notifications when new order is created:
     {
       resource: 'orders',
       action: 'create',
     },
+    */
 
     // Receive notifications when order financial/fulfillment status changes:
     {
@@ -170,7 +181,7 @@ procedures.push({
       field: 'fulfillment_status',
     },
 
-    // Receive notifications when products/variations stock quantity changes:
+    /* Receive notifications when products/variations stock quantity changes:
     {
       resource: 'products',
       field: 'quantity',
@@ -194,6 +205,7 @@ procedures.push({
     },
 
     // Feel free to create custom combinations with any Store API resource, subresource, action and field.
+    */
   ],
 
   webhooks: [
