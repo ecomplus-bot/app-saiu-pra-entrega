@@ -1,5 +1,5 @@
 {
   "extends": [
-    "github>ecomclub/renovate-config"
+    "github>ecomclub/renovate-config:app"
   ]
 }
