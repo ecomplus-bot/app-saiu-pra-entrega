@@ -180,6 +180,11 @@ procedures.push({
       resource: 'orders',
       field: 'fulfillment_status',
     },
+    {
+      resource: 'orders',
+      subresource: 'shipping_lines',
+      field: 'tracking_codes',
+    },
 
     /* Receive notifications when products/variations stock quantity changes:
     {
