@@ -41,16 +41,16 @@ exports.post = ({ appSdk }, req, res) => {
           if (url) {
             appSdk.apiRequest(storeId, `${resource}/${resourceId}.json`)
               .then(async ({ response }) => {
-                let customer
-                console.log(`> Sending ${resource} notification`)
+                const data = {
+                  storeId,
+                  trigger,
+                  [resource.slice(0, -1)]: response.data
+                }
+                console.log(`> Sending ${resource} notification for #${storeId} with ${JSON.stringify(data)}`)
                 return axios({
                   method: 'post',
                   url,
-                  data: {
-                    storeId,
-                    trigger,
-                    [resource.slice(0, -1)]: response.data
-                  }
+                  data
                 })
               })
               .then(({ status }) => console.log(`> ${status}`))
